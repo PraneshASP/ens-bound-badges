@@ -27,28 +27,27 @@ export function handleIssued(event: IssuedEvent): void {
     holders.push(id);
     ensBoundBadgeInstance.holders = holders;
     ensBoundBadgeInstance.save();
-  }
-  // Send Push notification to the recipient of the badge
-  let recipient = entity.holderAddress.toHexString(),
-    type = "3",
-    title = `Received a new ENSBoundBadge #${entity.badgeId.toString()}(${
-      event.address
-    })`,
-    body = `Congrats! You are issued with a new ENSBoundBadge for unlocking an achievement. Badge ID is #${entity.badgeId.toString()} and badge address is ${
-      event.address
-    }`,
-    subject = "New ENSBoundBadge Issued!",
-    message = `Congrats! You received a new badge #${entity.badgeId.toString()} of the ENSBoundBadge ${
-      event.address
-    }`,
-    image =
-      "https://static.vecteezy.com/system/resources/previews/009/373/589/non_2x/business-icon-success-3d-illustration-png.png",
-    secret = "null",
-    cta = "https://ethindia.co/";
 
-  const notification = `{\"type\": \"${type}\", \"title\": \"${title}\", \"body\": \"${body}\", \"subject\": \"${subject}\", \"message\": \"${message}\", \"image\": \"${image}\", \"secret\": \"${secret}\", \"cta\": \"${cta}\"}`;
-  sendEPNSNotification(recipient, notification);
-  log.info("Notification Sent : {}", [entity.holderAddress.toHexString()]);
+    // Send Push notification to the recipient of the badge
+    let recipient = entity.holderAddress.toHexString(),
+      type = "3",
+      title = `You received a new badge!`,
+      body = `Congrats! You are issued with a new ENSBoundBadge from the collection named ${
+        ensBoundBadgeInstance.name
+      }. Badge ID is #${entity.badgeId.toString()} and badge address is ${event.address.toHexString()}`,
+      subject = `You received a new badge!`,
+      message = `Congrats! You are issued with a new ENSBoundBadge from the collection named ${
+        ensBoundBadgeInstance.name
+      }. Badge ID is #${entity.badgeId.toString()} and badge address is ${event.address.toHexString()}`,
+      image =
+        "https://static.vecteezy.com/system/resources/previews/009/373/589/non_2x/business-icon-success-3d-illustration-png.png",
+      secret = "null",
+      cta = "https://ethindia.co/";
+
+    const notification = `{\"type\": \"${type}\", \"title\": \"${title}\", \"body\": \"${body}\", \"subject\": \"${subject}\", \"message\": \"${message}\", \"image\": \"${image}\", \"secret\": \"${secret}\", \"cta\": \"${cta}\"}`;
+    sendEPNSNotification(recipient, notification);
+    log.info("Notification Sent : {}", [entity.holderAddress.toHexString()]);
+  }
 }
 
 export function handleRevoked(event: RevokedEvent): void {
@@ -59,14 +58,19 @@ export function handleRevoked(event: RevokedEvent): void {
     entity.isRevoked = true;
     entity.revokedAt = event.block.timestamp;
     entity.save();
-
+    let ensBoundBadgeInstance = ENSBoundBadge.load(event.address);
+    if (ensBoundBadgeInstance == null) return;
     // Send Push notification using EPNS
     let recipient = event.params._revokedFrom.toHexString(),
       type = "3",
-      title = `Revoked a Badge - BadgeID #${entity.badgeId}`,
-      body = `Oops! Your badge has been revoked. Badge ID is #${entity.badgeId} and badge address is ${event.address}`,
-      subject = "Badge Revoked!",
-      message = `Oops! Your badge #${entity.badgeId}(${event.address}) has been revoked`,
+      title = `Badge Revoked! - BadgeID #${entity.badgeId}`,
+      body = `Oops! Your badge #${entity.badgeId} from the collection ${
+        ensBoundBadgeInstance.name
+      }(${event.address.toHexString()}) has been revoked`,
+      subject = `Badge Revoked! - BadgeID #${entity.badgeId}`,
+      message = `Oops! Your badge #${entity.badgeId} from the collection ${
+        ensBoundBadgeInstance.name
+      }(${event.address.toHexString()}) has been revoked`,
       image =
         "https://img.freepik.com/premium-vector/3d-check-wrong-icon-isolated-white-background-negative-check-list-button-choice-false-correct-tick-problem-fail-application-emergency-icon-vector-with-shadow-3d-rendering-illustration_412828-1336.jpg",
       secret = "null",
