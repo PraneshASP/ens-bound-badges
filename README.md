@@ -1,7 +1,7 @@
  # ENSBoundBadges •   [![license](https://img.shields.io/badge/MIT-brown.svg?label=MIT)](https://opensource.org/licenses/MIT) ![solidity](https://img.shields.io/badge/solidity-0.8.17-lightgrey)
 
  
-A permission-less system that allows anyone to issue on-chain badges that'll be tied forever tied to the user's [**ENS domain**](https://ens.domains). 
+A permission-less and a fully-decentralized system that allows anyone to issue on-chain badges that'll be tied forever tied to the user's [**ENS domain**](https://ens.domains). 
 
 
 
@@ -23,6 +23,16 @@ For those who don't know:
 
 The system is completely **permissionless** such that anyone could issue their own badges on-chain with their own icons (passed as `BadgeInfo`) for any purpose, it could be issued for hackathon winners, for bug bounty hunters, for CTF Challenge solvers, for gas optmizooors and for anyone they want. And the cool part is whenever a new badge is issued or revoked, the address associated with the ENS will receive a push notification via [**Push protocol**](https://push.org) and [**Graph protocol**](https://thegraph.com) integration!
 
+
+## Why?
+- Fully decentralized and permissionless - Anyone can issue new ENSBoundBadges
+- Customizable badges via `BadgeInfo` struct.
+- Subgraph dynamic indexing of newly created ENSBoundBadge contracts via factory
+- Efficient implementation of Factory contract via Minimal proxy.
+- Since the Subgraph is configured, frontend can seamlessly fetch and render badges
+- Push notifications via Push protocol. 
+- more...
+- 
 ---
 
 ## System Overview:
@@ -38,6 +48,17 @@ From the above architecture diagram, you can see there are a couple of important
 - [ENSBoundBadgeFactory](https://github.com/PraneshASP/ens-bound-badges/blob/main/src/ENSBoundBadgeFactory.sol): This is a factory contract that is used to deploy (clone) the `ENSBoundBadge` contract. This contract uses EIP-1167 (Minimal proxy) standard to create new ENSBoundBadge contracts saving gas fees on deployment. 
 
 ---
+
+Since I was hacking alone and due to limited time, there was no frontend for this app yet. But the contracts and subgraph are deployed and verified on Goerli testnet for you guys to try it out.
+
+| **Component**                  | **Link**                                                                               |
+|--------------------------------|----------------------------------------------------------------------------------------|
+| ENSBoundBadgeFactory           | https://goerli.etherscan.io/address/0x2A89C6fC204124924fB860aacdb51BaE9686F8f7         |
+| ENSBoundBadge (Implementation) | https://goerli.etherscan.io/address/0xd15B5D3D12AFAEb2cb2211E1449aC2860fD7D55D         |
+| Subgraph                       | https://thegraph.com/hosted-service/subgraph/praneshasp/ensboundbadge-test             |
+| EPNS Channel                   | https://staging.push.org/#/channels?channel=0x18d0daD1839a26FE6d5718791BAf4e7bC12b49eC |
+
+*As the app is currently on goerli testnet, there's no ENS Support for Mumbai testnet hence we cannot try this app out. Hence I chose goerli. But for mainnet deployment we'll probably have fully on-chain rendered badges for which we'll use Polygon.*
 
 Here are some quick screenshots of the push notifications received.
 
