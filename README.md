@@ -1,13 +1,13 @@
  # ENSBoundBadges •   [![license](https://img.shields.io/badge/MIT-brown.svg?label=MIT)](https://opensource.org/licenses/MIT) ![solidity](https://img.shields.io/badge/solidity-0.8.17-lightgrey)
 
  
-A permission-less and a fully-decentralized system that allows anyone to issue on-chain badges that'll be tied forever tied to the user's [**ENS domain**](https://ens.domains). 
+A permission-less and a fully-decentralized system that allows anyone to issue on-chain badges that'll be tied forever to the user's [**ENS domain**](https://ens.domains). 
 
 
 
 > **Warning**
 >
-> These contracts are **unaudited** and are not recommended for use in production. Due to time constraints, there are no automated unit tests available yet, the system is MANUALLY TESTED as of now.
+> These contracts are **unaudited** and are not recommended for use in production. Due to time constraints, there are no automated  tests available yet, the system is MANUALLY TESTED as of now.
 >
 > This is **experimental software** and is provided on an "as is" and "as available" basis.
 > There are **no warranties** and we **will not be liable for any loss** incurred through any use of this codebase.
@@ -21,18 +21,19 @@ For those who don't know:
 
 *A soulbound item, once picked up, cannot be transferred or sold to another account.While transferable NFTs have their place and can be really valuable on their own for supporting artists and charities, there is also a large and underexplored design space of what non-transferable NFTs could become.*
 
-The system is completely **permissionless** such that anyone could issue their own badges on-chain with their own icons (passed as `BadgeInfo`) for any purpose, it could be issued for hackathon winners, for bug bounty hunters, for CTF Challenge solvers, for gas optmizooors and for anyone they want. And the cool part is whenever a new badge is issued or revoked, the address associated with the ENS will receive a push notification via [**Push protocol**](https://push.org) and [**Graph protocol**](https://thegraph.com) integration!
+So I ended up building this ENSBoundBadge protocol. The system is completely **permissionless** such that anyone could issue their own badges on-chain with their own icons (passed as `BadgeInfo`) for any purpose, it could be issued for hackathon winners, for bug bounty hunters, for CTF Challenge solvers, for gas optmizooors and for anyone they want. And the cool part is whenever a new badge is issued or revoked, the address associated with the ENS will receive a push notification via [**Push protocol**](https://push.org) and [**Graph protocol**](https://thegraph.com) integration!
 
 
 ## Why?
 - Fully decentralized and permissionless - Anyone can issue new ENSBoundBadges
 - Customizable badges via `BadgeInfo` struct.
 - Subgraph dynamic indexing of newly created ENSBoundBadge contracts via factory
-- Efficient implementation of Factory contract via Minimal proxy.
+- Efficient deployment of ENSBoundBadge contract via Minimal proxies.
 - Since the Subgraph is configured, frontend can seamlessly fetch and render badges
 - Push notifications via Push protocol. 
-- more...
-- 
+- And more...
+  
+
 ---
 
 ## System Overview:
