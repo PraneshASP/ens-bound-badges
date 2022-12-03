@@ -1,10 +1,11 @@
- <img align="right" width="150" height="150" top="100" src="./assets/logo.png">
-
-# ENSBoundBadges • [![license](https://img.shields.io/badge/MIT-brown.svg?label=MIT)](https://opensource.org/licenses/MIT) ![solidity](https://img.shields.io/badge/solidity-%3E%3D0.8.13%20%3C0.9.0-lightgrey)
+ # ENSBoundBadges •   [![license](https://img.shields.io/badge/MIT-brown.svg?label=MIT)](https://opensource.org/licenses/MIT) ![solidity](https://img.shields.io/badge/solidity-%3E%3D0.8.13%20%3C0.9.0-lightgrey)
 
 <h3>
 
 A permission-less system that allows anyone to issue fully on-chain badges tied will be forever tied to the user's [**ENS domain**](https://ens.domains). 
+
+</h3>
+
 
 > **Warning**
 >
@@ -13,7 +14,6 @@ A permission-less system that allows anyone to issue fully on-chain badges tied 
 > This is **experimental software** and is provided on an "as is" and "as available" basis.
 > There are **no warranties** and we **will not be liable for any loss** incurred through any use of this codebase.
 
-</h3>
  
 ## What?
 
@@ -25,6 +25,7 @@ For those who don't know:
 
 The system is completely **permissionless** such that anyone could issue their own badges on-chain with their own icons (passed as `BadgeInfo`) for any purpose, it could be issued for hackathon winners, for bug bounty hunters, for CTF Challenge solvers, for gas optmizoors and for anyone they want. And the cool part is whenever a new badge is issued or revoked, the address associated with the ENS will receive a push notification via [**Push protocol**](https://push.org) and [**Graph protocol**](https://thegraph.com) integration!
 
+---
 
 ## Architecture:
 
@@ -38,6 +39,7 @@ From the above architecture diagram, you can see there are a couple of important
   
 - [ENSBoundBadgeFactory](https://github.com/PraneshASP/ens-bound-badges/blob/main/src/ENSBoundBadgeFactory.sol): This is a factory contract that is used to deploy (clone) the `ENSBoundBadge` contract. This contract uses EIP-1167 (Minimal proxy) standard to create new ENSBoundBadge contracts saving gas fees on deployment. 
 
+---
 
 Here are some quick screenshots of the push notifications received.
 
