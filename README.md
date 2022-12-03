@@ -7,7 +7,7 @@ A permission-less system that allows anyone to issue on-chain badges that'll be 
 
 > **Warning**
 >
-> These contracts are **unaudited** and are not recommended for use in production. There could be bugs in the code.
+> These contracts are **unaudited** and are not recommended for use in production. Due to time constraints, there are no automated unit tests available yet, the system is MANUALLY TESTED as of now.
 >
 > This is **experimental software** and is provided on an "as is" and "as available" basis.
 > There are **no warranties** and we **will not be liable for any loss** incurred through any use of this codebase.
