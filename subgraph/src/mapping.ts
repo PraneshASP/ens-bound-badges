@@ -31,10 +31,16 @@ export function handleIssued(event: IssuedEvent): void {
   // Send Push notification to the recipient of the badge
   let recipient = entity.holderAddress.toHexString(),
     type = "3",
-    title = `Received a new Badge #${entity.badgeId.toString()}`,
-    body = `Congrats! You are issued with a new badge for unlocking an achievement. Badge ID is #${entity.badgeId.toString()}`,
-    subject = "New Badge Issued!",
-    message = `Congrats! You received a new badge #${entity.badgeId.toString()}`,
+    title = `Received a new ENSBoundBadge #${entity.badgeId.toString()}(${
+      event.address
+    })`,
+    body = `Congrats! You are issued with a new ENSBoundBadge for unlocking an achievement. Badge ID is #${entity.badgeId.toString()} and badge address is ${
+      event.address
+    }`,
+    subject = "New ENSBoundBadge Issued!",
+    message = `Congrats! You received a new badge #${entity.badgeId.toString()} of the ENSBoundBadge ${
+      event.address
+    }`,
     image =
       "https://static.vecteezy.com/system/resources/previews/009/373/589/non_2x/business-icon-success-3d-illustration-png.png",
     secret = "null",
@@ -58,9 +64,9 @@ export function handleRevoked(event: RevokedEvent): void {
     let recipient = event.params._revokedFrom.toHexString(),
       type = "3",
       title = `Revoked a Badge - BadgeID #${entity.badgeId}`,
-      body = `Oops! Your badge has been revoked. Badge ID is #${entity.badgeId}`,
+      body = `Oops! Your badge has been revoked. Badge ID is #${entity.badgeId} and badge address is ${event.address}`,
       subject = "Badge Revoked!",
-      message = `Oops! Your badge #${entity.badgeId} has been revoked`,
+      message = `Oops! Your badge #${entity.badgeId}(${event.address}) has been revoked`,
       image =
         "https://img.freepik.com/premium-vector/3d-check-wrong-icon-isolated-white-background-negative-check-list-button-choice-false-correct-tick-problem-fail-application-emergency-icon-vector-with-shadow-3d-rendering-illustration_412828-1336.jpg",
       secret = "null",
