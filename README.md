@@ -1,10 +1,8 @@
  # ENSBoundBadges •   [![license](https://img.shields.io/badge/MIT-brown.svg?label=MIT)](https://opensource.org/licenses/MIT) ![solidity](https://img.shields.io/badge/solidity-%3E%3D0.8.13%20%3C0.9.0-lightgrey)
 
-<h3>
+ 
+A permission-less system that allows anyone to issue on-chain badges that'll be tied forever tied to the user's [**ENS domain**](https://ens.domains). 
 
-A permission-less system that allows anyone to issue fully on-chain badges tied will be forever tied to the user's [**ENS domain**](https://ens.domains). 
-
-</h3>
 
 
 > **Warning**
