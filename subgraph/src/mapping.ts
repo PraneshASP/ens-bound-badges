@@ -14,7 +14,7 @@ export function handleIssued(event: IssuedEvent): void {
   let id = `${event.address.toHexString()}+${event.params._badgeId.toString()}`;
   let entity = new BadgeHolder(id);
   entity.badgeId = event.params._badgeId;
-  entity.holderAddress = event.params.recipientAddress;
+  entity.holderAddress = event.params._recipientAddress;
   entity.holderENS = event.params._recipient;
   entity.issuedAt = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
@@ -55,7 +55,7 @@ export function handleRevoked(event: RevokedEvent): void {
     entity.save();
 
     // Send Push notification using EPNS
-    let recipient = event.params.revokedFrom.toHexString(),
+    let recipient = event.params._revokedFrom.toHexString(),
       type = "3",
       title = `Revoked a Badge - BadgeID #${entity.badgeId}`,
       body = `Oops! Your badge has been revoked. Badge ID is #${entity.badgeId}`,
@@ -69,7 +69,7 @@ export function handleRevoked(event: RevokedEvent): void {
     const notification = `{\"type\": \"${type}\", \"title\": \"${title}\", \"body\": \"${body}\", \"subject\": \"${subject}\", \"message\": \"${message}\", \"image\": \"${image}\", \"secret\": \"${secret}\", \"cta\": \"${cta}\"}`;
     sendEPNSNotification(recipient, notification);
     log.info("Notification Sent : {}", [
-      event.params.revokedFrom.toHexString(),
+      event.params._revokedFrom.toHexString(),
     ]);
   }
 }
