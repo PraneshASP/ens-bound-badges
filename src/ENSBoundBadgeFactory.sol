@@ -2,19 +2,27 @@
 pragma solidity 0.8.17;
 
 import {Clones} from "./helpers/Clones.sol";
-import {IENSBBadge} from "./interfaces/IENSBBadge.sol";
+import {IENSBoundBadge} from "./interfaces/IENSBoundBadge.sol";
 
 error OnlyOwner(); // Caller is not owner
 
+/// @title ENSBoundBadgeFactory
+/// @notice A simple factory contract used to clone the ENSBoundBadge contracts
+
 contract ENSBoundBadgeFactory {
+    /*//////////////////////////////////////////////////////////////
+                                 STORAGE
+    //////////////////////////////////////////////////////////////*/
     address public implementation;
-    address public owner;
-
+    address public immutable owner;
     address public immutable ensAddress;
-    mapping(uint256 => address) public ensBoundBadgeAddresses;
 
+    mapping(uint256 => address) public ensBoundBadgeAddresses;
     uint256 public count;
 
+    /*//////////////////////////////////////////////////////////////
+                                 EVENTS
+    //////////////////////////////////////////////////////////////*/
     event NewENSBoundBadgeCreated(
         address indexed _ensBoundBadgeAddress,
         string _name,
@@ -22,18 +30,29 @@ contract ENSBoundBadgeFactory {
         uint256 _supply
     );
 
+    /*//////////////////////////////////////////////////////////////
+                                 CONSTRUCTOR
+    //////////////////////////////////////////////////////////////*/
     constructor(address _implementation, address _ensAddress) {
         implementation = _implementation;
         owner = msg.sender;
         ensAddress = _ensAddress;
     }
 
-    function createENSBBadge(
+    /*//////////////////////////////////////////////////////////////
+                                 EXTERNAL METHODS
+    //////////////////////////////////////////////////////////////*/
+
+    /// @notice Used to create a new ENS bound badge contract
+    /// @param _name Name of the badge
+    /// @param _symbol Symbol for the badge
+    /// @param _supply Max supply for the badge
+    function createENSBoundBadge(
         string memory _name,
         string memory _symbol,
         uint256 _supply
     ) external {
-        IENSBBadge _ensBoundBadgeAddress = IENSBBadge(
+        IENSBoundBadge _ensBoundBadgeAddress = IENSBoundBadge(
             Clones.clone(implementation)
         );
 
@@ -55,6 +74,8 @@ contract ENSBoundBadgeFactory {
         );
     }
 
+    /// @notice Used to update the address of ENSBoundBadge implementation contract
+    /// @param _newImplementation Address of the updated contract
     function setImplementationAddress(address _newImplementation) external {
         if (msg.sender != owner) revert OnlyOwner();
         implementation = _newImplementation;

@@ -12,13 +12,28 @@ error NotIssued(); // Badge not yet issed
 error SupplyLimitReached(); // Total supply is minted
 
 contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
+    /*//////////////////////////////////////////////////////////////
+                                 STORAGE
+    //////////////////////////////////////////////////////////////*/
+
+    ///@notice Address of ENS contract to resolve underlying address
     IENS public ensAddress;
+
+    ///@notice Address of the badge issuer
     address public issuer;
+
+    ///@notice Latest BadgeID
     uint256 public badgeId;
+
+    ///@notice Max supply for the badge
     uint256 public supply;
 
+    ///@notice Maps badgeId with BadgeInfo
     mapping(uint256 => BadgeInfo) public badgeInfo;
 
+    /*//////////////////////////////////////////////////////////////
+                                 EVENTS
+    //////////////////////////////////////////////////////////////*/
     event Issued(
         string _recipient,
         address indexed recipientAddress,
@@ -26,6 +41,16 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
     );
     event Revoked(address indexed revokedFrom, uint256 _badgeId);
 
+    /*//////////////////////////////////////////////////////////////
+                                 INITIALIZER
+    //////////////////////////////////////////////////////////////*/
+
+    /// @notice Initializer
+    /// @param _name Name of the badge
+    /// @param _symbol Symbol for the badge
+    /// @param _ensAddress Address of ENS contract
+    /// @param _issuer Address of the Badge issuer
+    /// @param _supply Max supply for the badge
     function initialize(
         string memory _name,
         string memory _symbol,
@@ -41,6 +66,10 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
         supply = _supply;
     }
 
+    /*//////////////////////////////////////////////////////////////
+                                 PUBLIC METHODS
+    //////////////////////////////////////////////////////////////*/
+    /// @notice Returns the metadata uri for the given `_badgeId`
     function tokenURI(uint256 _badgeId)
         public
         view
@@ -50,8 +79,10 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
         return badgeInfo[_badgeId].metadataURI;
     }
 
-    /// PUBLIC methods
-
+    /// @notice Used to issue a new badge
+    /// @param _ensName ENS name of the recipient
+    /// @param _ensNodeHash NodeHash of the ENS name
+    /// @param _badgeInfo Additional info for the Badge
     function issueBadge(
         string memory _ensName,
         bytes32 _ensNodeHash,
@@ -66,12 +97,24 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
         emit Issued(_ensName, _resolvedAddress, _badgeId);
     }
 
+    /// @notice Used to revoke any issued badge
+    /// @param _badgeId Id of the badge to revoke
     function revokeBadge(uint256 _badgeId) external {
         if (msg.sender != issuer) revert OnlyIssuer();
         _burn(_badgeId);
     }
 
-    /// Internal methods
+    /// @notice Used to get the underlying address for a given ENS domain
+    /// @param _ensNodeHash Nodehash for the ens domain
+    /// @return The associated address for the given Nodehash
+    function resolveENS(bytes32 _ensNodeHash) public view returns (address) {
+        address resolver = ensAddress.resolver(_ensNodeHash);
+        return IENS(resolver).addr(_ensNodeHash);
+    }
+
+    /*//////////////////////////////////////////////////////////////
+                                 INTERNAL METHODS
+    //////////////////////////////////////////////////////////////*/
     function _mint(address to, uint256 id) internal virtual {
         _balanceOf[to] = 1;
         _ownerOf[id] = to;
@@ -91,13 +134,9 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
         emit Transfer(holder, address(0), id);
     }
 
-    function resolveENS(bytes32 _ensNodeHash) public view returns (address) {
-        address resolver = ensAddress.resolver(_ensNodeHash);
-        return IENS(resolver).addr(_ensNodeHash);
-    }
-
-    /// Restricted methods
-
+    /*//////////////////////////////////////////////////////////////
+                                 RESTRICTED METHODS
+    //////////////////////////////////////////////////////////////*/
     function approve(address spender, uint256 id) public virtual override {
         revert NotPermitted();
     }
