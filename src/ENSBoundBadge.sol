@@ -91,6 +91,7 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
     }
 
     /// @notice Used to issue a new badge
+    /// @dev Here we are making an assumption that the given nodeHash is the nodehash of the _ensName
     /// @param _ensName ENS name of the recipient
     /// @param _ensNodeHash NodeHash of the ENS name
     /// @param _badgeInfo Additional info for the Badge
@@ -106,12 +107,15 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
         if (!canHoldMultiple && _balanceOf[_resolvedAddress] > 0)
             revert AlreadyIssued();
 
+        /// TODO: Verify if `nodeHash(_ensName) == _ensNodeHash`
+
         _mint(_resolvedAddress, _badgeId);
         badgeInfo[_badgeId] = _badgeInfo;
         emit Issued(_ensName, _resolvedAddress, _badgeId);
     }
 
     /// @notice Used to revoke any issued badge
+    /// @dev Issuer can revoke if the ENS is expired or so
     /// @param _badgeId Id of the badge to revoke
     function revokeBadge(uint256 _badgeId) external {
         if (msg.sender != issuer) revert OnlyIssuer();
