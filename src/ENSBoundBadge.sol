@@ -36,10 +36,10 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
     //////////////////////////////////////////////////////////////*/
     event Issued(
         string _recipient,
-        address indexed recipientAddress,
+        address indexed _recipientAddress,
         uint256 _badgeId
     );
-    event Revoked(address indexed revokedFrom, uint256 _badgeId);
+    event Revoked(address indexed _revokedFrom, uint256 _badgeId);
 
     /*//////////////////////////////////////////////////////////////
                                  INITIALIZER
