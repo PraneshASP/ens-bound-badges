@@ -12,6 +12,10 @@ error NotIssued(); // Badge not yet issed
 error SupplyLimitReached(); // Total supply is minted
 error AlreadyIssued(); // The Badge is already minted to the ENS domain
 
+/// @title ENSBoundBadge contract
+/// @notice This is a ERC721 compatible non-transferrable token contract
+/// @notice All the minted tokens will be tied with the ENS domain
+/// @notice This contract integrates with Push protocol and ENS contracts
 contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
     /*//////////////////////////////////////////////////////////////
                                  STORAGE
