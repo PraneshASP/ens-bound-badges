@@ -85,40 +85,40 @@ contract ENSBoundBadge is ERC721Initializable {
 
     /// Restricted methods
 
-    // function approve(address spender, uint256 id) public virtual override {
-    //     revert NotPermitted();
-    // }
+    function approve(address spender, uint256 id) public virtual override {
+        revert NotPermitted();
+    }
 
-    // function setApprovalForAll(address operator, bool approved)
-    //     public
-    //     virtual
-    //     override
-    // {
-    //     revert NotPermitted();
-    // }
+    function setApprovalForAll(address operator, bool approved)
+        public
+        virtual
+        override
+    {
+        revert NotPermitted();
+    }
 
-    // function transferFrom(
-    //     address from,
-    //     address to,
-    //     uint256 id
-    // ) public virtual override {
-    //     revert NotPermitted();
-    // }
+    function transferFrom(
+        address from,
+        address to,
+        uint256 id
+    ) public virtual override {
+        revert NotPermitted();
+    }
 
-    // function safeTransferFrom(
-    //     address from,
-    //     address to,
-    //     uint256 id
-    // ) public virtual override {
-    //     revert NotPermitted();
-    // }
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 id
+    ) public virtual override {
+        revert NotPermitted();
+    }
 
-    // function safeTransferFrom(
-    //     address from,
-    //     address to,
-    //     uint256 id,
-    //     bytes calldata data
-    // ) public virtual override {
-    //     revert NotPermitted();
-    // }
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 id,
+        bytes calldata data
+    ) public virtual override {
+        revert NotPermitted();
+    }
 }
