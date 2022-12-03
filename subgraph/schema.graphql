@@ -1,0 +1,33 @@
+type BadgeHolder @entity {
+  id: String!
+  holderENS: String! # string
+  holderAddress: Bytes! # address
+  badgeId: BigInt! # uint256
+  issuedAt: BigInt!
+  transactionHash: Bytes!
+  isRevoked: Boolean
+  revokedAt: BigInt
+}
+
+type EpnsNotificationCounter @entity {
+  id: ID!
+  totalCount: BigInt!
+}
+
+type EpnsPushNotification @entity {
+  id: ID!
+  notificationNumber: BigInt!
+  recipient: String!
+  notification: String!
+}
+
+type ENSBoundBadge @entity {
+  id: Bytes!
+  name: String!
+  symbol: String! # uint256
+  supply: BigInt!
+  ensBoundBadgeAddress: Bytes!
+  holders: [BadgeHolder!]!
+  createdAt: BigInt!
+  transactionHash: Bytes!
+}

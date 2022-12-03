@@ -1,0 +1,47 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ENSBoundBadgeFactory
+    network: goerli
+    source:
+      abi: ENSBoundBadgeFactory
+      address: "0x6b58DAED6a7be2379A0d34Fc4ABCA96D30CF9c28"
+      startBlock: 8067131
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - BadgeHolder
+        - ENSBoundBadge
+      abis:
+        - name: ENSBoundBadgeFactory
+          file: ./abis/ENSBoundBadgeFactory.json
+      eventHandlers:
+        - event: NewENSBoundBadgeCreated(indexed address,string,string,uint256)
+          handler: handleNewENSBoundBadgeCreation
+      file: ./src/mapping.ts
+templates:
+  - kind: ethereum
+    name: ENSBoundBadge
+    network: goerli
+    source:
+      abi: ENSBoundBadge
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - BadgeHolder
+        - ENSBoundBadge
+      abis:
+        - name: ENSBoundBadge
+          file: ./abis/ENSBoundBadge.json
+      eventHandlers:
+        - event: Issued(string,indexed address,uint256)
+          handler: handleIssued
+        - event: Revoked(indexed address,uint256)
+          handler: handleRevoked
+      file: ./src/mapping.ts
