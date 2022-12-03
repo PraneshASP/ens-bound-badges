@@ -3,6 +3,7 @@ pragma solidity 0.8.17;
 
 import {ERC721Initializable} from "./ERC721Initializable.sol";
 import {IENS} from "./interfaces/IENS.sol";
+import {IENSBoundBadge} from "./interfaces/IENSBoundBadge.sol";
 
 error NotPermitted(); // ENSBound
 error OnlyIssuer(); // Can be called only by issuer
@@ -10,12 +11,13 @@ error Initialized(); // Already initialized
 error NotIssued(); // Badge not yet issed
 error SupplyLimitReached(); // Total supply is minted
 
-contract ENSBoundBadge is ERC721Initializable {
-    string internal URI;
+contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
     IENS public ensAddress;
     address public issuer;
     uint256 public badgeId;
     uint256 public supply;
+
+    mapping(uint256 => BadgeInfo) public badgeInfo;
 
     event Issued(
         string _recipient,
@@ -39,17 +41,28 @@ contract ENSBoundBadge is ERC721Initializable {
         supply = _supply;
     }
 
-    // TODO:
-    function tokenURI(uint256) public view override returns (string memory) {}
+    function tokenURI(uint256 _badgeId)
+        public
+        view
+        override
+        returns (string memory)
+    {
+        return badgeInfo[_badgeId].metadataURI;
+    }
 
     /// PUBLIC methods
 
-    function issueBadge(string memory _ensName, bytes32 _ensNodeHash) external {
+    function issueBadge(
+        string memory _ensName,
+        bytes32 _ensNodeHash,
+        BadgeInfo memory _badgeInfo
+    ) external {
         if (msg.sender != issuer) revert OnlyIssuer();
         uint256 _badgeId = badgeId++;
         if (_badgeId > supply) revert SupplyLimitReached();
         address _resolvedAddress = resolveENS(_ensNodeHash);
         _mint(_resolvedAddress, _badgeId);
+        badgeInfo[_badgeId] = _badgeInfo;
         emit Issued(_ensName, _resolvedAddress, _badgeId);
     }
 

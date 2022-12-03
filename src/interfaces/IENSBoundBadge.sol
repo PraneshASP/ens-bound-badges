@@ -2,7 +2,13 @@
 pragma solidity 0.8.17;
 
 /// @notice Interface for ENSBoundBadge contract
-interface IENSBBadge {
+interface IENSBoundBadge {
+    struct BadgeInfo {
+        string title;
+        string description;
+        string metadataURI;
+    }
+
     function initialize(
         string memory _name,
         string memory _symbol,
