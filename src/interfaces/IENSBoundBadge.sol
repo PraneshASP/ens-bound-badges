@@ -4,9 +4,9 @@ pragma solidity 0.8.17;
 /// @notice Interface for ENSBoundBadge contract
 interface IENSBoundBadge {
     struct BadgeInfo {
-        string title;
-        string description;
-        string metadataURI;
+        string title; /// Title of the Badge
+        string description; /// Description for the badge
+        string metadataURI; /// Metadata URI for the badge
     }
 
     function initialize(
@@ -14,6 +14,7 @@ interface IENSBoundBadge {
         string memory _symbol,
         address _ensAddress,
         address _issuer,
-        uint256 _supply
+        uint256 _supply,
+        bool _canHoldMultiple
     ) external;
 }

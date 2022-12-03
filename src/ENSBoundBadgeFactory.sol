@@ -47,10 +47,12 @@ contract ENSBoundBadgeFactory {
     /// @param _name Name of the badge
     /// @param _symbol Symbol for the badge
     /// @param _supply Max supply for the badge
+    /// @param _canHoldMultiple Used to specify if an ENS domain can hold multiple badges
     function createENSBoundBadge(
         string memory _name,
         string memory _symbol,
-        uint256 _supply
+        uint256 _supply,
+        bool _canHoldMultiple
     ) external {
         IENSBoundBadge _ensBoundBadgeAddress = IENSBoundBadge(
             Clones.clone(implementation)
@@ -61,7 +63,8 @@ contract ENSBoundBadgeFactory {
             _symbol,
             ensAddress,
             msg.sender,
-            _supply
+            _supply,
+            _canHoldMultiple
         );
 
         ensBoundBadgeAddresses[++count] = address(_ensBoundBadgeAddress);

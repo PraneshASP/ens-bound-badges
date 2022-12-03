@@ -10,6 +10,7 @@ error OnlyIssuer(); // Can be called only by issuer
 error Initialized(); // Already initialized
 error NotIssued(); // Badge not yet issed
 error SupplyLimitReached(); // Total supply is minted
+error AlreadyIssued(); // The Badge is already minted to the ENS domain
 
 contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
     /*//////////////////////////////////////////////////////////////
@@ -31,6 +32,9 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
     ///@notice Maps badgeId with BadgeInfo
     mapping(uint256 => BadgeInfo) public badgeInfo;
 
+    ///@notice Used to specify if one ENS domain can hold multiple badges
+    bool public canHoldMultiple;
+
     /*//////////////////////////////////////////////////////////////
                                  EVENTS
     //////////////////////////////////////////////////////////////*/
@@ -51,12 +55,14 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
     /// @param _ensAddress Address of ENS contract
     /// @param _issuer Address of the Badge issuer
     /// @param _supply Max supply for the badge
+    /// @param _canHoldMultiple Used to specify if an ENS domain can hold multiple badges
     function initialize(
         string memory _name,
         string memory _symbol,
         address _ensAddress,
         address _issuer,
-        uint256 _supply
+        uint256 _supply,
+        bool _canHoldMultiple
     ) public {
         if (address(ensAddress) != address(0)) revert Initialized();
         name = _name;
@@ -64,6 +70,7 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
         issuer = _issuer;
         ensAddress = IENS(_ensAddress);
         supply = _supply;
+        canHoldMultiple = _canHoldMultiple;
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -92,6 +99,9 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
         uint256 _badgeId = badgeId++;
         if (_badgeId > supply) revert SupplyLimitReached();
         address _resolvedAddress = resolveENS(_ensNodeHash);
+        if (!canHoldMultiple && _balanceOf[_resolvedAddress] > 0)
+            revert AlreadyIssued();
+
         _mint(_resolvedAddress, _badgeId);
         badgeInfo[_badgeId] = _badgeInfo;
         emit Issued(_ensName, _resolvedAddress, _badgeId);
@@ -116,7 +126,7 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
                                  INTERNAL METHODS
     //////////////////////////////////////////////////////////////*/
     function _mint(address to, uint256 id) internal virtual {
-        _balanceOf[to] = 1;
+        _balanceOf[to] += 1;
         _ownerOf[id] = to;
         emit Transfer(address(0), to, id);
     }
@@ -126,7 +136,7 @@ contract ENSBoundBadge is IENSBoundBadge, ERC721Initializable {
         address holder = _ownerOf[id];
         if (holder == address(0)) revert NotIssued();
 
-        _balanceOf[holder] = 0;
+        _balanceOf[holder] -= 1;
         _ownerOf[id] = address(0);
 
         emit Revoked(holder, id);
