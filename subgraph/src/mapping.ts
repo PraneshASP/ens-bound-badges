@@ -66,13 +66,13 @@ export function handleRevoked(event: RevokedEvent): void {
       title = `Badge Revoked! - BadgeID #${entity.badgeId}`,
       body = `Oops! Your badge #${entity.badgeId} from the collection ${
         ensBoundBadgeInstance.name
-      }(${event.address.toHexString()}) has been revoked`,
+      }(${event.address.toHexString()}) has been revoked.`,
       subject = `Badge Revoked! - BadgeID #${entity.badgeId}`,
       message = `Oops! Your badge #${entity.badgeId} from the collection ${
         ensBoundBadgeInstance.name
-      }(${event.address.toHexString()}) has been revoked`,
+      }(${event.address.toHexString()}) has been revoked.`,
       image =
-        "https://img.freepik.com/premium-vector/3d-check-wrong-icon-isolated-white-background-negative-check-list-button-choice-false-correct-tick-problem-fail-application-emergency-icon-vector-with-shadow-3d-rendering-illustration_412828-1336.jpg",
+        "https://img.freepik.com/free-psd/3d-rendering-ui-icon_23-2149182281.jpg",
       secret = "null",
       cta = "https://ethindia.co/";
 
