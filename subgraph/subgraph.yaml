@@ -7,7 +7,7 @@ dataSources:
     network: goerli
     source:
       abi: ENSBoundBadgeFactory
-      address: "0x6b58DAED6a7be2379A0d34Fc4ABCA96D30CF9c28"
+      address: "0x2A89C6fC204124924fB860aacdb51BaE9686F8f7"
       startBlock: 8067131
     mapping:
       kind: ethereum/events
