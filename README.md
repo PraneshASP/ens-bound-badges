@@ -1,9 +1,11 @@
- # ENSBoundBadges •   [![license](https://img.shields.io/badge/MIT-brown.svg?label=MIT)](https://opensource.org/licenses/MIT) ![solidity](https://img.shields.io/badge/solidity-0.8.17-lightgrey)
+# ENSBoundBadges •   [![license](https://img.shields.io/badge/MIT-brown.svg?label=MIT)](https://opensource.org/licenses/MIT) ![solidity](https://img.shields.io/badge/solidity-0.8.17-lightgrey)
 
+**UPDATE: This project was built in less than 12 hours for ETHIndia'22 and won multiple prizes from sponsors 🎉**
 
-A permission-less and a fully-decentralized system that allows anyone to issue on-chain badges that'll be tied forever to the user's [**ENS domain**](https://ens.domains). 
+![ethindia-22](https://github.com/PraneshASP/ens-bound-badges/assets/42379522/a1a5be6c-c3fb-4d03-87ac-f22bca190872) 
 
-> UPDATE: This project has won multiple prizes from ETHIndia'22 sponsors 🎉
+A permission-less and a fully-decentralized system that allows anyone to issue on-chain badges that'll be tied forever to the user's [**ENS domain**](https://ens.domains). See project submission here in  [Devfolio](https://devfolio.co/projects/ensboundbadges-ebb-eaf6). 
+
 
 > **Warning**
 >
