@@ -1,9 +1,9 @@
  # ENSBoundBadges •   [![license](https://img.shields.io/badge/MIT-brown.svg?label=MIT)](https://opensource.org/licenses/MIT) ![solidity](https://img.shields.io/badge/solidity-0.8.17-lightgrey)
 
- 
+
 A permission-less and a fully-decentralized system that allows anyone to issue on-chain badges that'll be tied forever to the user's [**ENS domain**](https://ens.domains). 
 
-
+> UPDATE: This project has won multiple prizes from ETHIndia'22 sponsors 🎉
 
 > **Warning**
 >
